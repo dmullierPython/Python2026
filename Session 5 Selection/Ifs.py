@@ -4,15 +4,17 @@
 #if it is raining outside, I will take my umbrella.
 raining_outside = False
 sunny = False
+
 if raining_outside:
     print("I will take my umbrella.")
+    print("as I don't want to get wet")
 print("=========End of If 1===================")
 #if it is raining outside, I will take my umbrella, if not I will take my baseball cap.
 if raining_outside:
     print("I will take my umbrella.")
 else:
     print("I will take my baseball cap.")
-    print("=========End of If 2===================")
+print("=========End of If 2===================")
 #if it is raining outside, I will take my umbrella, or if it is sunny I will take my sun hat.
 if raining_outside:
     print("I will not take my baseball cap.")
