@@ -5,10 +5,23 @@
 # V4.0 determines who won/lost
 # V5.0 Added error handling for invalid score data
 # V6.0 totting up the points
+# V7.0 read from a file instead of hard coding the matches in the program
 
-matches =["england iran 3 0","wales usa 1 0","england wales x 0","usa iran 2 1","england usa 1","iran wales 0 5"]
+matches = []  # blank list to store matches
 # Dictionary to store each team's total points
 points = {}
+line = ""
+try:
+    f = open("matches.txt")
+except FileNotFoundError:
+    print("file not found")
+    exit(-1)  # exit program passing an error code
+print("Reading file.")
+for line in f:  # loop for every line in  the file
+    matches.append(line.strip())
+f.close()
+
+print("File closed.")
 print("List of matches:")
 print(matches)
 print(f"There are {len(matches)} matches in the list.")
