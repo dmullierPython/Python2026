@@ -9,7 +9,7 @@ First, I will show using built in functions, such as len(), sort(), and print().
 
 
 ## standard_library.py
-Then, I will show how to use the standard library in Python. T
+Then, I will show how to use the standard library in Python.
 The standard library is a collection of modules and packages that come with Python. 
 It provides a wide range of functionality, far too much to be imported at once, so we must pick and choose.
 There are various ways to import and use functions. This program shows each way.
