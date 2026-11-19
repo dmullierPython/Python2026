@@ -6,8 +6,7 @@ times throughout your program.
 
 ## built_in functions.py
 First, I will show using built in functions, such as len(), sort(), and print(). 
-Then I will show how to define your own functions using the def keyword. 
-We will also discuss parameters, return values and scope.
+
 
 ## standard_library.py
 Then, I will show how to use the standard library in Python. T
