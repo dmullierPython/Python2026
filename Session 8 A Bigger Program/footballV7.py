@@ -1,4 +1,4 @@
-# football.py
+# footballv7.py
 # V1.0 Simple list of matches
 # V2.0 Added processing of matches to print out the match results in the correct format
 # V3.0 Can now handle case where there aren't the correct number of fields.
@@ -12,7 +12,7 @@ matches = []  # blank list to store matches
 points = {}
 line = ""
 try:
-    f = open("matches.txt")
+    f = open("../Session 7 Lists and Project Example/matches.txt")
 except FileNotFoundError:
     print("file not found")
     exit(-1)  # exit program passing an error code
