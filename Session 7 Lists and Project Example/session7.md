@@ -12,6 +12,29 @@ In reality, I would just commit each new feature and I've done that as well.
 It is better to do it the commit way because you can clearly see the differences as I add them.
 Click on each individual commit below and you'll see how it changed from the previous version side by side.
 
+## Using the command line
+**Running from the Command Line (Terminal)**
+
+Open the Terminal tab at the bottom of PyCharm (or open your system Terminal / Command Prompt).
+
+Move into the folder containing your Python script and matches.txt using cd:
+
+cd "your-folder-name"
+Run your program with the data filename typed after it:
+
+python football.py matches.txt
+
+**Running in PyCharm**
+Create a configuration: To the left on the run icon, click the dropdown and select Edit Configurations....
+
+Add the filename: Type matches.txt into the Script parameters (or Parameters) box.
+
+Check the folder: Make sure Working directory points to the same folder where matches.txt is saved.
+
+Run: Click OK, then click the green Run button.
+
+## Commit history
+
 [Example 1 printing a list of matches](https://github.com/dmullierPython/Python2026/commit/ce4100366051b8ab61d23f251810363d4c6f0214)
 
 [Example 2 printing a list of matches in correct format](https://github.com/dmullierPython/Python2026/commit/7e5bc79bf2b8c17e6cbbd0a4abc58d456306c0f4)
@@ -26,5 +49,8 @@ Click on each individual commit below and you'll see how it changed from the pre
 
 [Example 7 reading matches from a file](https://github.com/dmullierPython/Python2026/commit/1cca039b0c27d3c9b35c425e1c7f36407a68ae6b)
 
-[Example 8 adding a dictionary to store each team's stats]()
+[Example 8 adding a league table](https://github.com/dmullierPython/Python2026/commit/cee72cecf312f754582d5d9159ff2e05457bac2d)
+
+[Example 9 using the command line for the results file]()
+
 

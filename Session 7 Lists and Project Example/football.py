@@ -6,97 +6,94 @@
 # V5.0 Added error handling for invalid score data
 # V6.0 totting up the points
 # V7.0 read from a file instead of hard coding the matches in the program
-# V8.0 Added a full league table.
-
+# V8.0 Added a dictionary to store each team's stats, including matches played, won, drawn, lost, goals for, goals against, and points.
+# V9.0 using the command line for the results file.
 import sys
 
-def new_team_stats() -> dict[str, int]:
-    """Return a fresh statistics record for a team."""
-    return {
-        "played": 0,
-        "won": 0,
-        "drawn": 0,
-        "lost": 0,
-        "gf": 0,
-        "ga": 0,
-        "points": 0,
-    }
+# Check that a filename was provided on the command line
+if len(sys.argv) != 2:
+    print("Usage: python football.py <filename>")
+    sys.exit(1)
 
+filename = sys.argv[1]
 
-table: dict[str, dict[str, int]] = {}
+matches = []
+table = {}  # Dictionary to store each team's stats
 
 try:
-    with open("matches.txt", encoding="utf-8") as f:
-        matches = [line.strip() for line in f if line.strip()]
+    with open(filename) as f:
+        for line in f:
+            matches.append(line.strip())
 except FileNotFoundError:
-    print("File not found.")
+    print(f"File '{filename}' not found")
     sys.exit(1)
 
 print(f"Loaded {len(matches)} matches.\n")
 
+# Process each match
 for match in matches:
-    parts = match.split()
-    if len(parts) != 4:
-        print(f"Skipping invalid match format: {match}")
+    match_list = match.split()
+    if len(match_list) != 4:
+        print(f"Match data is invalid: {match}")
         continue
-
-    home_team, away_team, home_raw, away_raw = parts
 
     try:
-        home_score = int(home_raw)
-        away_score = int(away_raw)
+        home_score = int(match_list[2])
+        away_score = int(match_list[3])
     except ValueError:
-        print(f"Skipping invalid score data: {match}")
+        print(f"Invalid score data for match: {match}")
         continue
 
-    # Ensure both teams exist in the table
-    home = table.setdefault(home_team, new_team_stats())
-    away = table.setdefault(away_team, new_team_stats())
+    home_team = match_list[0]
+    away_team = match_list[1]
+
+    # Ensure both teams exist in the table dictionary
+    if home_team not in table:
+        table[home_team] = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "gf": 0, "ga": 0, "points": 0}
+    if away_team not in table:
+        table[away_team] = {"played": 0, "won": 0, "drawn": 0, "lost": 0, "gf": 0, "ga": 0, "points": 0}
 
     # Update matches played and goals
-    home["played"] += 1
-    away["played"] += 1
-    home["gf"] += home_score
-    home["ga"] += away_score
-    away["gf"] += away_score
-    away["ga"] += home_score
+    table[home_team]["played"] += 1
+    table[away_team]["played"] += 1
+    table[home_team]["gf"] += home_score
+    table[home_team]["ga"] += away_score
+    table[away_team]["gf"] += away_score
+    table[away_team]["ga"] += home_score
 
-    # Update W/D/L and points
+    # Update won, drawn, lost and points
     if home_score > away_score:
-        home["won"] += 1
-        home["points"] += 3
-        away["lost"] += 1
+        table[home_team]["won"] += 1
+        table[home_team]["points"] += 3
+        table[away_team]["lost"] += 1
     elif home_score < away_score:
-        away["won"] += 1
-        away["points"] += 3
-        home["lost"] += 1
+        table[away_team]["won"] += 1
+        table[away_team]["points"] += 3
+        table[home_team]["lost"] += 1
     else:
-        home["drawn"] += 1
-        home["points"] += 1
-        away["drawn"] += 1
-        away["points"] += 1
+        table[home_team]["drawn"] += 1
+        table[home_team]["points"] += 1
+        table[away_team]["drawn"] += 1
+        table[away_team]["points"] += 1
 
-# Sort by Points (desc), Goal Difference (desc), Goals For (desc), then Team Name (asc)
+# Sort by points (highest first), then goal difference, then goals for
 sorted_table = sorted(
     table.items(),
     key=lambda item: (
-        -item[1]["points"],
-        -(item[1]["gf"] - item[1]["ga"]),
-        -item[1]["gf"],
-        item[0].lower(),
+        item[1]["points"],
+        item[1]["gf"] - item[1]["ga"],
+        item[1]["gf"],
     ),
+    reverse=True,
 )
 
-# Print formatted league table
-header = f"{'Pos':<4} {'Team':<18} {'P':>3} {'W':>3} {'D':>3} {'L':>3} {'GF':>4} {'GA':>4} {'GD':>4} {'Pts':>4}"
-print(header)
-print("-" * len(header))
+# Print the final league table
+print(f"{'Team':<15} {'P':>3} {'W':>3} {'D':>3} {'L':>3} {'GF':>4} {'GA':>4} {'GD':>4} {'Pts':>4}")
+print("-" * 50)
 
-for pos, (team, stats) in enumerate(sorted_table, start=1):
+for team, stats in sorted_table:
     gd = stats["gf"] - stats["ga"]
     print(
-        f"{pos:<4} {team:<18} {stats['played']:>3} {stats['won']:>3} "
-        f"{stats['drawn']:>3} {stats['lost']:>3} {stats['gf']:>4} "
-        f"{stats['ga']:>4} {gd:>+4} {stats['points']:>4}"
+        f"{team:<15} {stats['played']:>3} {stats['won']:>3} {stats['drawn']:>3} "
+        f"{stats['lost']:>3} {stats['gf']:>4} {stats['ga']:>4} {gd:>4} {stats['points']:>4}"
     )
-
