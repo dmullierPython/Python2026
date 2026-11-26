@@ -74,7 +74,7 @@ source .venv/bin/activate
 ## Packages
 
 PyPI (the Python Package Index, pronounced "pie-pea-eye") is the official online repository of third-party software packages and libraries for Python, 
-hosted at pypi.org.
+hosted at [pypi.org](https://pypi.org).
 
 While Python comes with a built-in standard library (modules like sys, math, and csv that work out of the box), PyPI hosts hundreds of thousands 
 of community-created packages that extend what Python can do—for example:
@@ -84,9 +84,11 @@ of community-created packages that extend what Python can do—for example:
 - pygame for building 2D games
 - flask or django for web development
 
+Click on the pypi link and search to see some libraries.
+
 ## An Example
-`requests_example.py` is a simple program that uses the `requests` package to fetch data from a website.
-If you try and runb it now, it will fail because the `requests` package is not installed in your virtual environment.
+`requests_example.py` is a simple program that uses the [requests](https://pypi.org/project/requests/) package to fetch data from a website.
+If you try and run it now, it will fail because the `requests` package is not installed in your virtual environment.
 ```bash
  python .\requests_example.py
 ```
@@ -125,7 +127,18 @@ With your virtual environment activated in the terminal, run:
 pip freeze > requirements.txt
 
 ```
-
+Have a look to see what it has generated.
+```bash
+type requirements.txt
+```
+You'll see something like:
+```bash
+certifi==2026.11.20
+charset-normalizer==3.5.3
+idna==3.20
+requests==2.34.2
+urllib3==2.8.0
+```
 This creates a `requirements.txt` file listing every package installed in your environment along with its exact version number (for example, `requests==2.32.3`).
 
 ### Distribute Your Project Files
@@ -167,3 +180,31 @@ When you're done working in the virtual environment, you can deactivate it by ru
 ```bash
 deactivate
 ```
+
+### Installing Packages in PyCharm
+You can also install packages from within PyCharm. Go to `File > Settings  > Python > Interpreter` and click the `+` 
+icon to search for and install
+packages from PyPI. This is equivalent to running `pip install <package>` in the terminal, but it provides a graphical 
+interface and automatically installs the package into your project's virtual environment.
+
+On the examples in this directory you will see the syntax error where it is trying to import the requests library disappear.
+
+There isn't a one click way to write out PyCharm's installed packages to a requirements.txt file, 
+but you can use the terminal in PyCharm to run the `pip freeze > requirements.txt` command.
+In the very bottom right you can see what PyCharm is using (mine says .venv [3.12.9] and if I click on it, it gives me the full path, which is the root of y repo directory.
+In the terminal make sure you are in the root of your project.
+
+```bash
+```
+
+## A better Example
+This repo contain `forecast.py` which is a more interesting example of using the requests library to get the weather for Leeds from a public API. You can run it and see what it does.
+
+## Resetting everything
+if you are playing around with this and want to go through it all again, you can remove your library with
+```bash
+python.exe -m pip uninstall -y requests
+python -c "import requests"
+```
+
+In PyCharm go back to settings and remove the libraries you installed. Then delete the .venv folder and start again.
